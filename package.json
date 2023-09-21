@@ -8,19 +8,24 @@
     "build": "cross-env NODE_ENV=production RUNTIME_ENV=production node config/bin.js",
     "build:analyzer": "cross-env NODE_ENV=production RUNTIME_ENV=analyzer node config/bin.js",
     "build:production": "cross-env NODE_ENV=production npm run build",
-		"lint-staged": "lint-staged",
+    "lint-staged": "lint-staged",
     "lint-staged:js": "eslint --ext .js,.jsx,.ts,.tsx ",
     "prepare": "husky install",
-		"postinstall": "husky install"
+    "postinstall": "husky install"
   },
   "lint-staged": {
-    "**/*.{js,jsx,ts,tsx}": "npm run lint-staged:js"
+    "**/*.{js,jsx,ts,tsx}": "npm run lint-staged:js",
+    "**/*.{js,jsx,tsx,ts,less,md,json}": [
+      "prettier --write"
+    ]
   },
   "keywords": [],
   "author": "youjinli <543990951@qq.com>",
   "license": "ISC",
   "devDependencies": {
     "@babel/core": "^7.22.20",
+    "@babel/plugin-transform-nullish-coalescing-operator": "^7.22.11",
+    "@babel/plugin-transform-optional-chaining": "^7.22.15",
     "@babel/preset-env": "^7.22.20",
     "@babel/preset-react": "^7.22.15",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.11",
@@ -37,6 +42,8 @@
     "css-loader": "^6.8.1",
     "css-minimizer-webpack-plugin": "^5.0.1",
     "eslint": "^8.49.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-prettier": "^5.0.0",
     "eslint-plugin-react": "^7.33.2",
     "html-webpack-plugin": "^5.5.3",
     "husky": "^8.0.0",
@@ -45,6 +52,7 @@
     "lint-staged": "^14.0.1",
     "mini-css-extract-plugin": "^2.7.6",
     "postcss-loader": "^7.3.3",
+    "prettier": "^3.0.3",
     "react-refresh": "^0.14.0",
     "speed-measure-webpack-plugin": "^1.5.0",
     "style-loader": "^3.3.3",
@@ -59,6 +67,10 @@
   "dependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "yarn": ">=1.22.0"
   },
   "repository": "https://github.com/yjl122/webpack5-react-mpa.git"
 }

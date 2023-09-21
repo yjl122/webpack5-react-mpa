@@ -1,27 +1,28 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { createRoot } from "react-dom/client";
 import s from "./index.module.less";
-import car from "@/assets/images/fireCar.png";
+import car from "./images/car2.png";
 
-const App = ()=> {
-
-    const [count, setCounts ] = useState(1);
-    const onChange = () => {
-      const dd = count+1;
-      setCounts(dd);
-    };
-    return (<>
+const App = () => {
+  const [count, setCounts] = useState(1);
+  const onChange = () => {
+    const dd = count + 1;
+    const bb = { b: 1 };
+    setCounts(dd);
+    console.log(bb?.b);
+  };
+  return (
+    <>
       <img src={car} />
-      <div className={s.bg} onClick={onChange}>999</div>
-      <div className={s.div}>{count}</div>
-      {/* <input type="text" value={count} onChange={onChange} />
-      <br/>
-      <input type="text" /> */}
-    </>);
+      <div className={s?.bg} onClick={onChange}>
+        990
+      </div>
+      <div className={s?.div}>{count}</div>
+    </>
+  );
 };
 const root = document.getElementById("root");
 
-if(root) {
+if (root) {
   createRoot(root).render(<App />);
 }
-

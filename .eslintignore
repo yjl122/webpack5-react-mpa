@@ -1,0 +1,4 @@
+config/*
+dist/*
+.DS_Store
+public/*

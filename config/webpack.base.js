@@ -1,90 +1,89 @@
-
-const path = require('path');
-const CopyPlugin = require('copy-webpack-plugin');
-const webpack = require('webpack');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const getPages = require('./getPages');
+const path = require("path");
+const CopyPlugin = require("copy-webpack-plugin");
+const webpack = require("webpack");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const getPages = require("./getPages");
 
 const [n, b, page] = process.argv;
-const {entry, htmlPlugin} = getPages(page);
-const isProd = process.env.NODE_ENV === 'production';
+const { entry, htmlPlugin } = getPages(page);
+const isProd = process.env.NODE_ENV === "production";
 
-module.exports =  {
+module.exports = {
   context: process.cwd(),
   entry,
   output: {
-    path: path.resolve(__dirname, '../dist'), //path.resolve(__dirname, '..', 'dist'),
+    path: path.resolve(__dirname, "../dist"),
     clean: true,
-    filename: '[name]/static/[contenthash:8].js',
-    publicPath: '/' 
+    filename: "[name]/static/[contenthash:8].js",
+    publicPath: "/"
   },
   cache: {
-    type: 'filesystem', // 使用文件缓存
+    type: "filesystem" // 使用文件缓存
   },
   module: {
     rules: [
       {
         test: /\.jsx?$|tsx?$/, // 匹配.js, jsx文件
-        use:['babel-loader'],
+        use: ["babel-loader"],
         exclude: /node_modules/
       },
       // {
-      //   test: /\.jsx?$|tsx?$/, 
+      //   test: /\.jsx?$|tsx?$/,
       //   exclude: /node_modules/,
       //   use: {
       //     loader: "swc-loader",
       //   },
       // },
       {
-        test:/.(png|jpg|jpeg|gif|svg)$/, // 匹配图片文件
+        test: /.(png|jpg|jpeg|gif|svg)$/, // 匹配图片文件
         type: "asset", // type选择asset
         parser: {
           dataUrlCondition: {
-            maxSize: 10 * 1024, // 小于10kb转base64位
+            maxSize: 10 * 1024 // 小于10kb转base64位
           }
         },
-        generator: { 
-          filename: `${page}/static/images/[name][ext]`, // 文件输出目录和命名
-        },
+        generator: {
+          filename: obj => {
+            return `${obj.runtime}/static/images/[name][ext]`; // 文件输出目录和命名
+          }
+        }
       },
       {
         test: /.(css|less)$/, //匹配 css和less 文件
-        include: [path.resolve(process.cwd(), 'src')],
+        include: [path.resolve(process.cwd(), "src")],
         use: [
-          isProd ? MiniCssExtractPlugin.loader : 'style-loader',
+          isProd ? MiniCssExtractPlugin.loader : "style-loader",
           {
-            loader: 'css-loader',
+            loader: "css-loader",
             options: {
               modules: {
-                localIdentName: '[local]_[hash:base64:8]'
+                localIdentName: "[local]_[hash:base64:8]"
               }
             }
-          }, 
-         'postcss-loader',
-         'less-loader'] // 从右到左，从下到上的原则
+          },
+          "postcss-loader",
+          "less-loader"
+        ] // 从右到左，从下到上的原则
       }
-    ],
+    ]
   },
   resolve: {
-      extensions: ['.js', '.jsx', '.json', '.ejs'],
-      alias: {
-          '@': path.resolve(process.cwd(), 'src'),
-      }
+    extensions: [".js", ".jsx", ".json"]
   },
   plugins: [
     ...htmlPlugin,
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
-      'process.env.RUNTIME_ENV': JSON.stringify(process.env.RUNTIME_ENV),
+      "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV),
+      "process.env.RUNTIME_ENV": JSON.stringify(process.env.RUNTIME_ENV)
     }),
     new CopyPlugin({
-      patterns: Object.keys(entry).map((key) => ({
-        from: 'public',
+      patterns: Object.keys(entry).map(key => ({
+        from: "public",
         to: `${key}/public`,
         filter: source => {
-          return !source.includes('index.html') // 忽略index.html
+          return !source.includes("index.html"); // 忽略index.html
         }
       }))
-    }),
+    })
   ]
-}
+};
