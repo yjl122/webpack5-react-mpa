@@ -3,15 +3,10 @@ const path = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
 const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const getEntry = require('./getEntry');
 const getPages = require('./getPages');
 
 const [n, b, page] = process.argv;
-const entry = getEntry(page);
-const htmlPlugin = getPages(entry);
-if(!page) {
-  console.error(`请输入页面名称`);
-}
+const {entry, htmlPlugin} = getPages(page);
 const isProd = process.env.NODE_ENV === 'production';
 
 module.exports =  {
