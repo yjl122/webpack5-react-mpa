@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState} from "react";
 import { createRoot } from "react-dom/client";
 import s from "./index.module.less";
 import car from "@/assets/images/fireCar.png";
@@ -17,8 +17,8 @@ const App = ()=> {
       {/* <input type="text" value={count} onChange={onChange} />
       <br/>
       <input type="text" /> */}
-    </>)
-}
+    </>);
+};
 const root = document.getElementById("root");
 
 if(root) {
