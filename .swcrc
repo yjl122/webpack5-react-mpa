@@ -1,0 +1,20 @@
+
+{
+    "jsc": {
+        "parser": {
+            "syntax": "ecmascript", // "ecmascript" | "typescript"
+            "decorators": false, // 装饰器 等同于 @babel/plugin-syntax-decorators
+            "dynamicImport": true, // 动态加载 等同于 @babel/plugin-syntax-dynamic-import 
+            "jsx": true // 是否解析jsx，对应插件 @babel/plugin-transform-react-jsx 
+        },
+        "transform": {
+            "legacyDecorator": true,
+            "decoratorMetadata": true
+        },
+        "externalHelpers": true, // 输出代码可能依赖于辅助函数来支持目标环境。
+        "target": "es5",
+        "keepClassNames": true, 
+        "loose": true  // 等同babel-preset-env的松散配置 
+    },
+    "minify": false //  压缩代码 
+}
